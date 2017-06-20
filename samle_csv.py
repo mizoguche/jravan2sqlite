@@ -11,4 +11,5 @@ names = ('Year', 'Month', 'Day', 'Course', 'RaceNumber', 'ClassCode', 'GradeCode
 
 df = pd.read_csv('~/Desktop/results_test.csv', names=names)
 
-print(df)
+for index, row in df.iterrows():
+    print(row['Year'] + 2000, row['Month'], row['Day'], row['Course'], row['RaceNumber'], row['RaceID'], row['Name'], row['PostPosition'], row['OrderOfFinish'])
