@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Float, Date
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -8,9 +8,7 @@ class Race(Base):
     __tablename__ = 'races'
 
     id = Column(String, primary_key=True)
-    year = Column(Integer, nullable=False)
-    month = Column(Integer, nullable=False)
-    day = Column(Integer, nullable=False)
+    date = Column(Date, nullable=False)
     course = Column(String, nullable=False)
     number = Column(Integer, nullable=False)
     class_code = Column(Integer, nullable=False)

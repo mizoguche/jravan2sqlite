@@ -2,6 +2,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Race, Result, Jockey, Horse, Trainer, Base
+from datetime import datetime as dt
 
 names = ('Year', 'Month', 'Day', 'Course', 'RaceNumber', 'ClassCode', 'GradeCode', 'TurfOrDirt', 'TrackCode',
          'TrackCodeJV', 'CornerNumber', 'Distance', 'CourseDivision', 'State', 'Weather', 'TotalHorseNumber',
@@ -24,7 +25,9 @@ for index, row in df.iterrows():
     race_id = str(row['RaceID'])[:16]
     race_count = session.query(Race).filter(Race.id == race_id).count()
     if race_count == 0:
-        race = Race(id=race_id, year=row['Year'], month=row['Month'], day=row['Day'], course=row['Course'],
+        date_str = '20' + ('%02d' % row['Year']) + '-' + ('%02d' % row['Month']) + '-' + ('%02d' % row['Day'])
+        date = dt.strptime(date_str, '%Y-%m-%d')
+        race = Race(id=race_id, date=date, course=row['Course'],
                     number=row['RaceNumber'], class_code=row['ClassCode'], grade_code=row['GradeCode'],
                     turf_or_dirt=row['TurfOrDirt'], track_code_jv=row['TrackCodeJV'], corner_number=row['CornerNumber'],
                     distance=row['Distance'], course_division=row['CourseDivision'], state=row['State'],
