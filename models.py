@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Float, Date
+from sqlalchemy import Column, Integer, String, Float, Date, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -24,16 +25,17 @@ class Race(Base):
     age_limitation_code = Column(String, nullable=False)
     symbol_code = Column(String, nullable=False)
     weight_code = Column(String, nullable=False)
+    results = relationship('Result', lazy='joined')
 
 
 class Result(Base):
     __tablename__ = 'results'
 
     id = Column(String, primary_key=True)
-    race_id = Column(Integer, nullable=False)
+    race_id = Column(Integer, ForeignKey('races.id'), nullable=False)
     number = Column(Integer, nullable=False)
     post_position = Column(Integer, nullable=False)
-    horse_id = Column(String, nullable=False)
+    horse_id = Column(String, ForeignKey('horses.id'), nullable=False)
     age = Column(Integer, nullable=False)
     jockey_code = Column(String, nullable=False)
     jockey_weight = Column(Float, nullable=False)
@@ -53,6 +55,7 @@ class Result(Base):
     average_3furlong_time = Column(Float)
     horse_weight = Column(Integer)
     horse_weight_delta = Column(Integer)
+    horse = relationship('Horse', lazy='joined')
 
 
 class Horse(Base):
@@ -65,6 +68,7 @@ class Horse(Base):
     producer = Column(String, nullable=False)
     sire = Column(String, nullable=False)
     broodmare_sire = Column(String, nullable=False)
+    results = relationship('Result')
 
 
 class Jockey(Base):
